@@ -9,7 +9,6 @@ import {
 import { ChevronDownIcon, PlusIcon } from '@heroicons/react/outline'
 import { useEffect, useState } from 'react'
 import { useNotesContext } from '../../context/notes'
-import SelectedLabelBadges from './SelectedLabelBadges'
 
 const LabelMenu = () => {
 	const { labels, addNewLabel, setSelectedLabels } = useNotesContext()
@@ -25,10 +24,12 @@ const LabelMenu = () => {
 		setSelectedLabelsList(
 			labels.filter((item, index) => checkedArr[index] && item)
 		)
+		// eslint-disable-next-line
 	}, [checkedArr])
 
 	useEffect(() => {
 		setSelectedLabels(selectedLabelsList)
+		// eslint-disable-next-line
 	}, [selectedLabelsList])
 
 	const handleCheckBoxChange = (currentIndex) => {

@@ -1,39 +1,18 @@
 import TextareaAutosize from 'react-textarea-autosize'
 import { useEffect, useState } from 'react'
 import { useNotesContext } from '../../context/notes'
-import { useToast } from '@chakra-ui/react'
 
-const UpdateNote = ({ note, onClose }) => {
-	const toast = useToast()
-	const { updateNote, removeNote } = useNotesContext()
+const UpdateNote = ({ note }) => {
+	const { updateNote } = useNotesContext()
 	const [title, setTitle] = useState(note?.title)
 	const [body, setBody] = useState(note?.body)
 
 	useEffect(() => {
-		let timeout
-		let id = note._id
-
-		timeout = setTimeout(() => {
+		let timeout = setTimeout(() => {
 			updateNote(note._id, { title, body })
 		}, 600)
 
-		// onClose(() => {
-		// 	if (title === '' && body === '') {
-		// 		async function removeIfEmpty() {
-		// 			toast({
-		// 				title: 'Empty Note. Moving to Bin',
-		// 				position: 'bottom-left',
-		// 				status: 'error',
-		// 				duration: 4000,
-		// 			})
-		// 			await removeNote(id)
-		// 		}
-		// 		removeIfEmpty()
-		// 	}
-		// })
-
 		return () => clearTimeout(timeout)
-
 		// eslint-disable-next-line
 	}, [title, body])
 

@@ -1,10 +1,10 @@
-import { options } from '../../constants/components'
+import { colors } from '../../constants/components'
 
 const ColorPicker = ({ color, setColor }) => {
 	const handleColorChange = ({ target }) => setColor(target.value)
 	return (
 		<div className='form-radio-group'>
-			{options.map((item) => (
+			{colors.map((item) => (
 				<div className='form-radio' key={item.id}>
 					<input
 						className='radio-input'

@@ -6,7 +6,7 @@ import UpdateNote from './UpdateNote'
 import { Modal } from '../utils'
 
 const Card = ({ note }) => {
-	const { title, body, _id, created, updated, color, labels } = note
+	const { title, body, _id, color, labels } = note
 	const { removeNote } = useNotesContext()
 	const [loading, setLoading] = useLoading()
 	const { isOpen, onClose, onOpen } = useDisclosure()

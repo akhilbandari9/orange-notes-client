@@ -32,9 +32,15 @@ const NotesProvider = ({ children }) => {
 	}
 	const [state, dispatch] = useReducer(notesReducer, initialState)
 
-	const getNotes = async () => {
+	const getNotes = async (label) => {
 		try {
-			const res = await axios.get(`${NOTES}`, null)
+			let res
+			if (label === undefined) {
+				res = await axios.get(`${NOTES}`, null)
+			} else {
+				res = await axios.get(`${NOTES}/labels?label=${label}`, null)
+			}
+
 			dispatch({
 				type: GET_NOTES,
 				payload: res.data,

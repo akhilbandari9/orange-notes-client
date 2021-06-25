@@ -1,7 +1,6 @@
 import { TrashIcon, RefreshIcon } from '@heroicons/react/outline'
 import { useBinContext } from '../../context/bin'
 import useLoading from '../../hooks/useLoading'
-import { Spinner } from '../utils'
 
 const BinCard = ({ note }) => {
 	const { deleteBinNote, restoreNote } = useBinContext()
