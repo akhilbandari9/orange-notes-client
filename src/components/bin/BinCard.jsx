@@ -1,10 +1,10 @@
 import { TrashIcon, RefreshIcon } from '@heroicons/react/outline'
-import { useNotesContext } from '../../context/notes'
+import { useBinContext } from '../../context/bin'
 import useLoading from '../../hooks/useLoading'
 import { Spinner } from '../utils'
 
 const BinCard = ({ note }) => {
-	const { deleteBinNote, restoreNote } = useNotesContext()
+	const { deleteBinNote, restoreNote } = useBinContext()
 	const [loading, setLoading] = useLoading()
 
 	const handleDelete = async (e) => {
@@ -23,7 +23,7 @@ const BinCard = ({ note }) => {
 	}
 
 	return (
-		<div className='card bin'>
+		<div className={`card bin ${loading ? ' inactive' : ''}`}>
 			<div className='card-body'>
 				<h2 className='card-title'>{note.title}</h2>
 				<p className='card-body'>{note.body.slice(0, 180)}</p>
@@ -39,11 +39,7 @@ const BinCard = ({ note }) => {
 					</span>
 				</div>
 			</div>
-			{loading ? (
-				<div className='overlay-spinner bin'>
-					<Spinner size='lg' />
-				</div>
-			) : null}
+			{loading ? <div className='overlay'></div> : null}
 		</div>
 	)
 }

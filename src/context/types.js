@@ -12,3 +12,7 @@ export const ERROR = 'ERROR'
 export const LOADING = 'LOADING'
 
 export const SET_SELECTED_NOTE = 'SET_SELECTED_NOTE'
+
+export const SET_LABELS_ONLOAD = 'SET_LABELS_ONLOAD'
+export const ADD_NEW_LABEL = 'ADD_NEW_LABEL'
+export const SET_SELECTED_LABELS = 'SET_SELECTED_LABELS'

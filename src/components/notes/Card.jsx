@@ -1,11 +1,12 @@
 import { TrashIcon, PencilIcon } from '@heroicons/react/outline'
-import { Spinner } from '../utils'
 import { useNotesContext } from '../../context/notes'
 import useLoading from '../../hooks/useLoading'
 import { useDisclosure } from '@chakra-ui/react'
 import UpdateNote from './UpdateNote'
+import { Modal } from '../utils'
 
 const Card = ({ note }) => {
+	const { title, body, _id, created, updated, color, labels } = note
 	const { removeNote } = useNotesContext()
 	const [loading, setLoading] = useLoading()
 	const { isOpen, onClose, onOpen } = useDisclosure()
@@ -14,19 +15,32 @@ const Card = ({ note }) => {
 		e.preventDefault()
 		e.stopPropagation()
 		setLoading(true)
-		await removeNote(note._id)
-		setLoading(false)
+		removeNote(_id)
 	}
 
-	const handleEdit = () => {
+	const handleEdit = (e) => {
+		e.preventDefault()
+		e.stopPropagation()
 		onOpen()
 	}
 
 	return (
-		<div className='card' onClick={() => onOpen()}>
+		<div
+			className={`card ${loading ? ' inactive' : ''}`}
+			style={{ background: color }}
+			onClick={() => onOpen()}
+		>
 			<div className='card-body'>
-				<h2 className='card-title'>{note.title}</h2>
-				<p className='card-body'>{note.body.slice(0, 180)}</p>
+				<h2 className='card-title'>{title}</h2>
+				<div className='card-labels'>
+					{labels.length > 0 &&
+						labels.map((item) => (
+							<p key={item} className='badge'>
+								{item}
+							</p>
+						))}
+				</div>
+				<pre className='card-body'>{body.slice(0, 180)}</pre>
 			</div>
 
 			<div className='card-wrapper'>
@@ -39,18 +53,11 @@ const Card = ({ note }) => {
 					</span>
 				</div>
 			</div>
-			{loading ? (
-				<div className='overlay-spinner'>
-					<Spinner size='lg' />
-				</div>
-			) : null}
+			{loading ? <div className='overlay'></div> : null}
 			{isOpen && (
-				<UpdateNote
-					note={note}
-					isOpen={isOpen}
-					onClose={onClose}
-					setLoading={setLoading}
-				/>
+				<Modal isOpen={isOpen} onClose={onClose}>
+					<UpdateNote note={note} onClose={onClose} />
+				</Modal>
 			)}
 		</div>
 	)

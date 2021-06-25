@@ -74,10 +74,10 @@ body {
 
 .create-note {
 	background-color: white;
-	padding: 0.8rem;
+	padding: 1.5rem;
 	border: 1px solid rgba($primary, 0.2);
 	border-radius: 8px;
-	width: 80%;
+	width: 100%;
 	margin: auto;
 	h1 {
 		margin-bottom: 0.5rem;
@@ -94,7 +94,6 @@ body {
 		padding-left: 0.3rem;
 	}
 	&.update-note {
-		padding: 2rem 0;
 		border: 0;
 	}
 }
@@ -107,21 +106,46 @@ body {
 	gap: 0.8rem;
 
 	&-wrap {
-		width: 100%;
-		display: none;
+		// display: none;
 	}
 	&-control {
+		width: 100%;
+
 		button {
 			display: flex;
 			margin-left: auto;
 			padding: 0.5rem 1rem;
 		}
 	}
+	&-radio-group {
+		display: flex;
+		gap: 0.4rem;
+		flex-direction: row;
+	}
+	&-radio {
+		input {
+			// visibility: hidden;
+			display: none;
+		}
+		label {
+			display: inline-block;
+			height: 2rem;
+			width: 2rem;
+			cursor: pointer;
+			border: 1px solid rgba($font, 0.3);
+			border-radius: 5px;
+			margin-right: 0.2rem;
+		}
+	}
 }
 
-.form:focus-within .form-wrap {
-	display: block;
+.radio-input:checked + .radio-label {
+	box-shadow: 0 0 1px 3px $orange-2;
 }
+
+// .form:focus-within .form-wrap {
+// 	display: block;
+// }
 
 .text-area-resizable {
 	width: 100%;
@@ -131,6 +155,7 @@ body {
 	transition: border-color, box-shadow 200ms ease-in-out;
 	resize: none;
 	overflow: hidden;
+	white-space: pre-line;
 	&:focus {
 		outline: none;
 		border-color: $orange;
@@ -171,6 +196,15 @@ body {
 	&-body {
 		font-size: 1rem;
 		padding-bottom: 0.4rem;
+		white-space: pre-wrap;
+		word-wrap: break-word;
+		font-size: inherit;
+		font-family: inherit;
+	}
+
+	&-labels {
+		margin: 0.5rem 0;
+		display: flex;
 	}
 	&-wrapper {
 		height: 2.8rem;
@@ -198,31 +232,30 @@ body {
 		color: $orange-2;
 	}
 }
-
+.inactive {
+	opacity: 0.5;
+	pointer-events: none;
+}
 .card:hover .card-footer {
 	visibility: visible;
 }
 
-.overlay-spinner {
+.overlay {
 	position: absolute;
 	top: 0;
 	left: 0;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	background-color: rgba($orange-2, 0.2);
-	z-index: 10;
+	z-index: 100;
 	width: 100%;
 	height: 100%;
 	border-radius: 5px;
-}
-.overlay-spinner.bin {
-	background-color: rgba($font, 0.2);
+	content: '';
 }
 
 .bin {
 	border: 1px solid rgba($font, 0.3);
-
 	&-footer {
 		border-top: 1px solid rgba($font, 0.2);
 	}
@@ -234,4 +267,12 @@ body {
 	svg {
 		color: rgba($font, 0.8);
 	}
+}
+
+.badge {
+	border: 1px solid lightblue;
+	border-radius: 10px;
+	padding: 0.2rem 0.7rem;
+	font-size: 12px;
+	margin-right: 0.5rem;
 }

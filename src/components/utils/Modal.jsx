@@ -7,7 +7,7 @@ import {
 
 const MyModal = ({ children, ...restProps }) => {
 	return (
-		<Modal {...restProps}>
+		<Modal {...restProps} motionPreset='slideInBottom' size='xl'>
 			<ModalOverlay />
 			<ModalContent>
 				<ModalCloseButton />

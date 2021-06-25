@@ -1,9 +1,12 @@
 import Notes from '../components/notes'
+import { NotesProvider } from '../context/notes'
 
 const HomePage = () => {
 	return (
 		<main>
-			<Notes />
+			<NotesProvider>
+				<Notes />
+			</NotesProvider>
 		</main>
 	)
 }

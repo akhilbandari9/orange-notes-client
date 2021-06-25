@@ -1,11 +1,11 @@
 import { useEffect } from 'react'
-import { useNotesContext } from '../../context/notes'
+import { useBinContext } from '../../context/bin'
 import useLoading from '../../hooks/useLoading'
 import BinCard from './BinCard'
 import { Loading, Button } from '../utils'
 
 const Bin = () => {
-	const { getBinNotes, binNotes, clearBin } = useNotesContext()
+	const { getBinNotes, binNotes, clearBin } = useBinContext()
 	const [loading, setLoading] = useLoading()
 
 	useEffect(() => {

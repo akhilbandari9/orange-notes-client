@@ -1,10 +1,12 @@
 import Bin from '../components/bin'
-
+import { BinProvider } from '../context/bin'
 const BinPage = () => {
 	return (
-		<div>
-			<Bin />
-		</div>
+		<main>
+			<BinProvider>
+				<Bin />
+			</BinProvider>
+		</main>
 	)
 }
 

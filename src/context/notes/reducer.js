@@ -3,10 +3,8 @@ import {
 	GET_NOTES,
 	POST_NOTE,
 	UPDATE_NOTE,
-	GET_BIN_NOTES,
-	DELETE_BIN_NOTE,
-	RESTORE_NOTE,
-	CLEAR_BIN_NOTES,
+	ADD_NEW_LABEL,
+	SET_SELECTED_LABELS,
 } from '../types'
 
 const notesReducer = (state, action) => {
@@ -36,22 +34,16 @@ const notesReducer = (state, action) => {
 				),
 			}
 
-		case GET_BIN_NOTES:
+		case ADD_NEW_LABEL:
 			return {
 				...state,
-				binNotes: action.payload,
-			}
-		case DELETE_BIN_NOTE:
-		case RESTORE_NOTE:
-			return {
-				...state,
-				binNotes: state.binNotes.filter((item) => item._id !== action.payload),
+				labels: [action.payload, ...state.labels],
 			}
 
-		case CLEAR_BIN_NOTES:
+		case SET_SELECTED_LABELS:
 			return {
 				...state,
-				binNotes: [],
+				selectedLabels: action.payload,
 			}
 
 		default:

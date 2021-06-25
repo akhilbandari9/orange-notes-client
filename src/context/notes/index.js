@@ -2,34 +2,36 @@ import { useContext, useReducer, createContext } from 'react'
 import axios from 'axios'
 import notesReducer from './reducer'
 import { useToast } from '@chakra-ui/react'
+import { NOTES } from '../../constants/endpoints'
 
-import { NOTES, BIN } from '../../constants/endpoints'
 import {
 	REMOVE_NOTE,
-	GET_BIN_NOTES,
 	GET_NOTES,
 	POST_NOTE,
 	UPDATE_NOTE,
-	DELETE_BIN_NOTE,
-	RESTORE_NOTE,
-	CLEAR_BIN_NOTES,
+	ADD_NEW_LABEL,
+	SET_SELECTED_LABELS,
 } from '../types'
 
 const NotesContext = createContext(null)
 
+const toastOptions = {
+	duration: 4000,
+	position: 'bottom-left',
+	isClosable: true,
+}
+
 const NotesProvider = ({ children }) => {
+	const toast = useToast()
+
 	const initialState = {
 		notes: null,
-		binNotes: null,
 		selectedNote: null,
+		labels: ['Important', 'Work', 'Personal'],
+		selectedLabels: [],
 	}
 	const [state, dispatch] = useReducer(notesReducer, initialState)
-	const toast = useToast()
-	const toastOptions = {
-		duration: 4000,
-		position: 'bottom-left',
-		isClosable: true,
-	}
+
 	const getNotes = async () => {
 		try {
 			const res = await axios.get(`${NOTES}`, null)
@@ -89,16 +91,36 @@ const NotesProvider = ({ children }) => {
 	}
 	const updateNote = async (id, updatedNote) => {
 		try {
-			const res = await axios.put(`${NOTES}/${id}`, {
-				...updatedNote,
-				_id: id,
-				updated: new Date(),
-			})
+			if (updatedNote.body === '' && updatedNote.title === '') {
+				setTimeout(async () => {
+					dispatch({
+						type: REMOVE_NOTE,
+						payload: id,
+					})
+					await axios.delete(`${NOTES}/${id}`)
+				}, 3500)
 
-			dispatch({
-				type: UPDATE_NOTE,
-				payload: res.data,
-			})
+				setTimeout(
+					() =>
+						toast({
+							title: 'Empty Note. Moved to Bin',
+							status: 'warning',
+							...toastOptions,
+						}),
+					3000
+				)
+			} else {
+				const res = await axios.put(`${NOTES}/${id}`, {
+					...updatedNote,
+					_id: id,
+					updated: new Date(),
+				})
+
+				dispatch({
+					type: UPDATE_NOTE,
+					payload: res.data,
+				})
+			}
 		} catch (err) {
 			toast({
 				title: 'Error updating Note',
@@ -108,94 +130,36 @@ const NotesProvider = ({ children }) => {
 		}
 	}
 
-	const getBinNotes = async () => {
-		try {
-			const res = await axios.get(`${BIN}`, null)
-			dispatch({
-				type: GET_BIN_NOTES,
-				payload: res.data,
-			})
-		} catch (err) {
-			toast({
-				title: 'Failed Loading Notes',
-				status: 'error',
-				...toastOptions,
-			})
-		}
+	const setLabelsOnLoad = async () => {}
+
+	const addNewLabel = async (newLabel) => {
+		//TODO: add a new labels to server
+		dispatch({
+			type: ADD_NEW_LABEL,
+			payload: newLabel,
+		})
 	}
-	const deleteBinNote = async (id) => {
-		try {
-			await axios.delete(`${BIN}/p/${id}`)
-			dispatch({
-				type: DELETE_BIN_NOTE,
-				payload: id,
-			})
-			toast({
-				title: 'Note Deleted Permanently',
-				status: 'warning',
-				...toastOptions,
-			})
-		} catch (err) {
-			toast({
-				title: 'Error moving to bin',
-				status: 'error',
-				...toastOptions,
-			})
-		}
-	}
-	const clearBin = async () => {
-		try {
-			await axios.delete(`${BIN}/delete/all`)
-			dispatch({
-				type: CLEAR_BIN_NOTES,
-			})
-			toast({
-				title: 'Emptied Bin',
-				status: 'success',
-				...toastOptions,
-			})
-		} catch (err) {
-			toast({
-				title: 'Error Clearing',
-				status: 'error',
-				...toastOptions,
-			})
-		}
-	}
-	const restoreNote = async (id) => {
-		try {
-			await axios.delete(`${BIN}/${id}`)
-			dispatch({
-				type: RESTORE_NOTE,
-				payload: id,
-			})
-			toast({
-				title: 'Note Restored',
-				status: 'success',
-				...toastOptions,
-			})
-		} catch (err) {
-			toast({
-				title: 'Error moving to bin',
-				status: 'error',
-				...toastOptions,
-			})
-		}
+
+	const setSelectedLabels = (labelList) => {
+		dispatch({
+			type: SET_SELECTED_LABELS,
+			payload: labelList,
+		})
 	}
 
 	return (
 		<NotesContext.Provider
 			value={{
 				notes: state.notes,
-				binNotes: state.binNotes,
+				labels: state.labels,
+				selectedLabels: state.selectedLabels,
 				getNotes,
 				postNote,
 				removeNote,
 				updateNote,
-				getBinNotes,
-				deleteBinNote,
-				restoreNote,
-				clearBin,
+				addNewLabel,
+				setSelectedLabels,
+				setLabelsOnLoad,
 			}}
 		>
 			{children}
