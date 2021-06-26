@@ -2,8 +2,8 @@ import { useContext, useReducer, createContext } from 'react'
 import axios from 'axios'
 import notesReducer from './reducer'
 import { useToast } from '@chakra-ui/react'
-import { NOTES } from '../../constants/endpoints'
-
+import { NOTES, LABELS } from '../../constants/endpoints'
+import { toastOptions } from '../../constants/components'
 import {
 	REMOVE_NOTE,
 	GET_NOTES,
@@ -11,23 +11,18 @@ import {
 	UPDATE_NOTE,
 	ADD_NEW_LABEL,
 	SET_SELECTED_LABELS,
+	SET_LABELS_ONLOAD,
+	DELETE_LABEL,
 } from '../types'
 
 const NotesContext = createContext(null)
-
-const toastOptions = {
-	duration: 4000,
-	position: 'bottom-left',
-	isClosable: true,
-}
 
 const NotesProvider = ({ children }) => {
 	const toast = useToast()
 
 	const initialState = {
 		notes: null,
-		selectedNote: null,
-		labels: ['Important', 'Work', 'Personal'],
+		labels: null,
 		selectedLabels: [],
 	}
 	const [state, dispatch] = useReducer(notesReducer, initialState)
@@ -136,14 +131,53 @@ const NotesProvider = ({ children }) => {
 		}
 	}
 
-	const setLabelsOnLoad = async () => {}
+	const setLabelsOnLoad = async () => {
+		try {
+			const res = await axios.get(LABELS, null)
+			const labelsArr = res.data.map((item) => item.label)
+			dispatch({
+				type: SET_LABELS_ONLOAD,
+				payload: labelsArr,
+			})
+		} catch (err) {
+			toast({
+				title: 'Failed Loading Labels',
+				status: 'error',
+				...toastOptions,
+			})
+		}
+	}
 
 	const addNewLabel = async (newLabel) => {
-		//TODO: add a new labels to server
-		dispatch({
-			type: ADD_NEW_LABEL,
-			payload: newLabel,
-		})
+		if (newLabel.includes(' ')) {
+			toast({
+				title: 'No spaces allowed',
+				status: 'error',
+				...toastOptions,
+			})
+			return null
+		} else if (newLabel.length > 0 && state.labels.includes(newLabel)) {
+			toast({
+				title: 'Label already exists',
+				status: 'error',
+				...toastOptions,
+			})
+			return null
+		} else if (newLabel.length <= 0) {
+			toast({
+				title: 'Label cannot be empty',
+				status: 'error',
+				...toastOptions,
+			})
+			return null
+		} else {
+			dispatch({
+				type: ADD_NEW_LABEL,
+				payload: newLabel,
+			})
+			await axios.post(LABELS, { label: newLabel })
+			return true
+		}
 	}
 
 	const setSelectedLabels = (labelList) => {
@@ -151,6 +185,28 @@ const NotesProvider = ({ children }) => {
 			type: SET_SELECTED_LABELS,
 			payload: labelList,
 		})
+	}
+
+	const deleteLabel = async (label) => {
+		try {
+			dispatch({
+				type: DELETE_LABEL,
+				payload: label,
+			})
+			await axios.delete(`${LABELS}/${label}`)
+
+			toast({
+				title: 'Label Deleted',
+				status: 'warning',
+				...toastOptions,
+			})
+		} catch (error) {
+			toast({
+				title: 'Error deleting label',
+				status: 'error',
+				...toastOptions,
+			})
+		}
 	}
 
 	return (
@@ -166,6 +222,7 @@ const NotesProvider = ({ children }) => {
 				addNewLabel,
 				setSelectedLabels,
 				setLabelsOnLoad,
+				deleteLabel,
 			}}
 		>
 			{children}

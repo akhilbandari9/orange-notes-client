@@ -1,5 +1,5 @@
 import { Input, Button } from '@chakra-ui/react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import TextareaAutosize from 'react-textarea-autosize'
 import { useNotesContext } from '../../context/notes'
 import useLoading from '../../hooks/useLoading'
@@ -9,16 +9,20 @@ import LabelMenu from './LabelMenu'
 import SelectedLabelBadges from './SelectedLabelBadges'
 
 const NoteForm = () => {
-	const { postNote, selectedLabels } = useNotesContext()
+	const { postNote, selectedLabels, setLabelsOnLoad } = useNotesContext()
 	const [loading, setLoading] = useLoading()
 
 	const [title, setTitle] = useState('')
 	const [body, setBody] = useState('')
 	const [color, setColor] = useState('#ffffff')
 
+	useEffect(() => {
+		setLabelsOnLoad()
+		//eslint-disable-next-line
+	}, [])
+
 	const handleSubmit = async (e) => {
 		e.preventDefault()
-
 		if (title !== '' && body !== '') {
 			setLoading(true)
 			await postNote({ title, body, color, labels: selectedLabels })

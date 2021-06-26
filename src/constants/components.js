@@ -1,5 +1,5 @@
-import { HomeIcon, TrashIcon } from '@heroicons/react/outline'
-import { HOME, BIN } from './routes'
+import { HomeIcon, PencilIcon, TrashIcon } from '@heroicons/react/outline'
+import { HOME, BIN, MANAGE_LABELS } from './routes'
 export const colors = [
 	{
 		id: 1,
@@ -41,4 +41,16 @@ export const links = [
 		to: BIN,
 		Icon: TrashIcon,
 	},
+	{
+		id: 3,
+		name: 'Manage Labels',
+		to: MANAGE_LABELS,
+		Icon: PencilIcon,
+	},
 ]
+
+export const toastOptions = {
+	duration: 4000,
+	position: 'bottom-left',
+	isClosable: true,
+}

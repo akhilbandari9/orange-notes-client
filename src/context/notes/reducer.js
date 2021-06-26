@@ -5,6 +5,8 @@ import {
 	UPDATE_NOTE,
 	ADD_NEW_LABEL,
 	SET_SELECTED_LABELS,
+	SET_LABELS_ONLOAD,
+	DELETE_LABEL,
 } from '../types'
 
 const notesReducer = (state, action) => {
@@ -13,13 +15,11 @@ const notesReducer = (state, action) => {
 			return {
 				...state,
 				notes: action.payload,
-				loading: false,
 			}
 		case POST_NOTE:
 			return {
 				...state,
 				notes: [action.payload, ...state.notes],
-				loading: false,
 			}
 		case REMOVE_NOTE:
 			return {
@@ -33,17 +33,26 @@ const notesReducer = (state, action) => {
 					item._id === action.payload._id ? action.payload : item
 				),
 			}
-
+		case SET_LABELS_ONLOAD:
+			return {
+				...state,
+				labels: action.payload,
+			}
 		case ADD_NEW_LABEL:
 			return {
 				...state,
-				labels: [action.payload, ...state.labels],
+				labels: [...state.labels, action.payload],
 			}
-
 		case SET_SELECTED_LABELS:
 			return {
 				...state,
 				selectedLabels: action.payload,
+			}
+
+		case DELETE_LABEL:
+			return {
+				...state,
+				notes: state.labels.filter((item) => item !== action.payload),
 			}
 
 		default:

@@ -16,13 +16,14 @@ const LabelMenu = () => {
 	const [newLabel, setNewLabel] = useState('')
 	const [selectedLabelsList, setSelectedLabelsList] = useState([])
 
-	const [checkedArr, setCheckedArr] = useState(
-		new Array(labels.length).fill(false)
+	const [checkedArr, setCheckedArr] = useState(() =>
+		new Array(labels?.length).fill(false)
 	)
 
 	useEffect(() => {
 		setSelectedLabelsList(
-			labels.filter((item, index) => checkedArr[index] && item)
+			labels !== null &&
+				labels.filter((item, index) => checkedArr[index] && item)
 		)
 		// eslint-disable-next-line
 	}, [checkedArr])
@@ -33,9 +34,10 @@ const LabelMenu = () => {
 	}, [selectedLabelsList])
 
 	const handleCheckBoxChange = (currentIndex) => {
-		setCheckedArr((prev) =>
-			prev.map((item, index) => (index === currentIndex ? !item : item))
-		)
+		labels !== null &&
+			setCheckedArr((prev) =>
+				prev.map((item, index) => (index === currentIndex ? !item : item))
+			)
 	}
 
 	const handleMenuClose = () => {
@@ -49,11 +51,9 @@ const LabelMenu = () => {
 	}
 
 	const saveNewLabel = (e) => {
-		e.preventDefault()
 		e.stopPropagation()
-		if (newLabel.length > 0) {
+		if (addNewLabel(newLabel)) {
 			setCheckedArr((prev) => [false, ...prev])
-			addNewLabel(newLabel)
 		}
 		setTyping(false)
 		setNewLabel('')
@@ -83,7 +83,8 @@ const LabelMenu = () => {
 						/>
 						{!typing ? (
 							<div className='label-list' style={{ marginTop: '0.7rem' }}>
-								{labels.length > 0 &&
+								{labels !== null &&
+									labels.length > 0 &&
 									labels.map((label, index) => (
 										<div className='' key={label}>
 											<MenuItem padding='0' borderRadius='5px'>
