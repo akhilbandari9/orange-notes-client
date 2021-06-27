@@ -15,16 +15,17 @@ const LabelMenu = () => {
 	const [typing, setTyping] = useState(false)
 	const [newLabel, setNewLabel] = useState('')
 	const [selectedLabelsList, setSelectedLabelsList] = useState([])
-
-	const [checkedArr, setCheckedArr] = useState(() =>
-		new Array(labels?.length).fill(false)
-	)
+	const [checkedArr, setCheckedArr] = useState([])
 
 	useEffect(() => {
-		setSelectedLabelsList(
-			labels !== null &&
-				labels.filter((item, index) => checkedArr[index] && item)
-		)
+		if (labels == null) return
+		setCheckedArr(new Array(labels.length).fill(false))
+	}, [labels])
+
+	useEffect(() => {
+		if (labels == null) return
+		const newArr = labels.filter((item, index) => checkedArr[index] && item)
+		setSelectedLabelsList(newArr)
 		// eslint-disable-next-line
 	}, [checkedArr])
 
@@ -34,10 +35,11 @@ const LabelMenu = () => {
 	}, [selectedLabelsList])
 
 	const handleCheckBoxChange = (currentIndex) => {
-		labels !== null &&
-			setCheckedArr((prev) =>
-				prev.map((item, index) => (index === currentIndex ? !item : item))
-			)
+		if (labels == null) return
+
+		setCheckedArr((prev) =>
+			prev.map((item, index) => (index === currentIndex ? !item : item))
+		)
 	}
 
 	const handleMenuClose = () => {
@@ -86,13 +88,13 @@ const LabelMenu = () => {
 								{labels !== null &&
 									labels.length > 0 &&
 									labels.map((label, index) => (
-										<div className='' key={label}>
+										<div key={label}>
 											<MenuItem padding='0' borderRadius='5px'>
 												<input
 													type='checkbox'
 													id={label}
 													value={label}
-													checked={checkedArr?.length > 0 && checkedArr[index]}
+													checked={checkedArr.length > 0 && checkedArr[index]}
 													onChange={() => handleCheckBoxChange(index)}
 												/>
 												<label

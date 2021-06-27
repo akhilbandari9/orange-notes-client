@@ -28,18 +28,20 @@ function Notes() {
 
 	return (
 		<>
-			<Button
-				onClick={() => onOpen()}
-				color='orange.400'
-				variant='outline'
-				colorScheme='orange'
-				marginLeft={['4rem', '4rem', '3rem', '3rem']}
-			>
-				<span>
-					<PlusIcon style={{ width: '1.2rem', marginRight: '0.5rem' }} />
-				</span>
-				<span>Add Note</span>
-			</Button>
+			<div className='add-note-btn'>
+				<Button
+					onClick={() => onOpen()}
+					color='orange.400'
+					variant='outline'
+					colorScheme='orange'
+				>
+					<span>
+						<PlusIcon style={{ width: '1.2rem', marginRight: '0.5rem' }} />
+					</span>
+					<span>Add Note</span>
+				</Button>
+			</div>
+
 			{!loading ? <Grid notes={notes} /> : <Loading colorScheme='orange' />}
 			<Modal isOpen={isOpen} onClose={onClose}>
 				<NoteForm />

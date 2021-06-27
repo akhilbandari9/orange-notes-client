@@ -12,6 +12,15 @@ body {
 	font-size: 1rem;
 	color: #262626;
 }
+@media only screen and (max-width: 460px) {
+	body {
+		font-size: 0.8rem;
+	}
+	h2,
+	h3 {
+		font-size: 0.8rem;
+	}
+}
 
 .App {
 	display: flex;
@@ -20,11 +29,7 @@ body {
 	margin: auto;
 	min-height: 100vh;
 	&__sidebar {
-		flex: 1;
-		width: 100%;
 		min-height: 100%;
-		margin-right: 1rem;
-		padding: 2.5rem 0;
 	}
 	&__page {
 		flex: 4;
@@ -32,6 +37,9 @@ body {
 		width: 100%;
 		min-height: 100%;
 		padding: 2.5rem 0;
+		@media only screen and (max-width: 460px) {
+			padding: 0;
+		}
 	}
 }
 
@@ -46,7 +54,7 @@ body {
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
-		margin-top: 1rem;
+		margin-top: 3rem;
 		min-width: 240px;
 	}
 	&-labels {
@@ -121,6 +129,15 @@ body {
 	}
 }
 
+.add-note-btn {
+	display: flex;
+	margin-left: auto;
+	width: 100%;
+	justify-content: flex-end;
+	padding-top: 15px;
+	padding-right: 15px;
+}
+
 .form {
 	display: flex;
 	flex-direction: column;
@@ -191,27 +208,35 @@ body {
 }
 
 .grid {
+	margin: 0.3rem;
 	margin-top: 1.5rem;
 	width: 100%;
 	display: flex;
 	flex-wrap: wrap;
 	gap: 1rem;
 	justify-content: center;
+	@media only screen and (max-width: 440px) {
+		gap: 0.5rem;
+	}
 }
 
 .card {
 	border: 1px solid $orange;
 	padding: 0.8rem 0.8rem 0 0.8rem;
-	position: relative;
 	border-radius: 5px;
-	max-width: 240px;
+	max-width: 250px;
 	width: 100%;
-	min-width: 200px;
 	color: $font;
 	cursor: default;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
+	@media only screen and (max-width: 470px) {
+		max-width: 200px;
+	}
+	@media only screen and (max-width: 380px) {
+		max-width: 100%;
+	}
 	&-title {
 		font-weight: 500;
 		font-size: 1.05rem;
@@ -228,6 +253,8 @@ body {
 	&-labels {
 		margin: 0.5rem 0;
 		display: flex;
+		flex-wrap: wrap;
+		gap: 0.3rem;
 	}
 	&-wrapper {
 		height: 2.8rem;
@@ -240,6 +267,9 @@ body {
 		align-items: center;
 		justify-content: flex-end;
 		visibility: hidden;
+		@media only screen and (max-width: 460px) {
+			visibility: visible;
+		}
 	}
 	span {
 		cursor: pointer;
@@ -291,13 +321,15 @@ body {
 		color: rgba($font, 0.8);
 	}
 }
+.badge-container {
+}
 
 .badge {
 	border: 1px solid lightblue;
 	border-radius: 10px;
 	padding: 0.1rem 0.7rem;
 	font-size: 12px;
-	margin-right: 0.5rem;
+	margin-right: 0.2rem;
 }
 
 .label-card {

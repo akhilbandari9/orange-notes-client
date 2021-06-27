@@ -32,6 +32,7 @@ const Sidebar = () => {
 				top='15px'
 				left='15px'
 				zIndex='10'
+				background='orange.50'
 			>
 				<Button
 					onClick={() => onOpen()}
