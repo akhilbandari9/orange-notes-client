@@ -14,7 +14,6 @@ const SidebarLabels = () => {
 
 	useEffect(() => {
 		setLabelsOnLoad()
-		console.log('ran from sidebar')
 		//eslint-disable-next-line
 	}, [])
 	return (

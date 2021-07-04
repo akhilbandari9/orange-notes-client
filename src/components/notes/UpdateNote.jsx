@@ -1,28 +1,37 @@
 import TextareaAutosize from 'react-textarea-autosize'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useNotesContext } from '../../context/notes'
 import { XIcon } from '@heroicons/react/outline'
 import ColorPicker from './ColorPicker'
 
+const { parseISO, formatDistanceStrict } = require('date-fns')
+
 const UpdateNote = ({ note }) => {
 	const { updateNote } = useNotesContext()
-	const [title, setTitle] = useState(note?.title)
-	const [body, setBody] = useState(note?.body)
-	const [labels, setLabels] = useState(note?.labels)
-	const [color, setColor] = useState(note?.color)
+	const [title, setTitle] = useState(note.title)
+	const [body, setBody] = useState(note.body)
+	const [labels, setLabels] = useState(note.labels)
+	const [color, setColor] = useState(note.color)
+
+	const isMounted = useRef(false)
 
 	const handleDeleteLabel = (selectedLabel) => {
 		setLabels((prev) => prev.filter((item) => item !== selectedLabel))
 	}
 
 	useEffect(() => {
-		let timeout = setTimeout(() => {
-			updateNote(note._id, { title, body, labels: labels, color })
-		}, 600)
+		let timeout
+		if (isMounted.current) {
+			timeout = setTimeout(async () => {
+				await updateNote(note._id, { title, body, labels, color })
+			}, 600)
+		} else {
+			isMounted.current = true
+		}
 
 		return () => clearTimeout(timeout)
 		// eslint-disable-next-line
-	}, [title, body, labels, color])
+	}, [title, body, color, JSON.stringify(labels)])
 
 	return (
 		<>
@@ -57,8 +66,13 @@ const UpdateNote = ({ note }) => {
 							onChange={({ target }) => setBody(target.value)}
 						/>
 					</div>
-					<div className=''>
+					<div className='' style={{ marginTop: '20px' }}>
 						<ColorPicker color={color} setColor={setColor} />
+					</div>
+					<div className='updated-at'>
+						{'updated ' +
+							formatDistanceStrict(parseISO(note.updated), new Date()) +
+							' ago'}
 					</div>
 				</div>
 			)}

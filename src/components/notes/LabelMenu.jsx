@@ -15,33 +15,22 @@ const LabelMenu = () => {
 	const [typing, setTyping] = useState(false)
 	const [newLabel, setNewLabel] = useState('')
 	const [selectedLabelsList, setSelectedLabelsList] = useState([])
-	const [checkedArr, setCheckedArr] = useState([])
-
-	useEffect(() => {
-		if (labels == null) return
-		setCheckedArr(new Array(labels.length).fill(false))
-	}, [labels])
-
-	useEffect(() => {
-		if (labels == null) return
-		const newArr = labels.filter((item, index) => checkedArr[index] && item)
-		setSelectedLabelsList(newArr)
-		// eslint-disable-next-line
-	}, [checkedArr])
 
 	useEffect(() => {
 		setSelectedLabels(selectedLabelsList)
 		// eslint-disable-next-line
 	}, [selectedLabelsList])
 
-	const handleCheckBoxChange = (currentIndex) => {
+	const handleCheckBoxChange = (currentLabel) => {
 		if (labels == null) return
-
-		setCheckedArr((prev) =>
-			prev.map((item, index) => (index === currentIndex ? !item : item))
-		)
+		setSelectedLabelsList((prev) => {
+			if (prev.includes(currentLabel)) {
+				return prev.filter((item) => item !== currentLabel)
+			} else {
+				return [...prev, currentLabel]
+			}
+		})
 	}
-
 	const handleMenuClose = () => {
 		setNewLabel('')
 		setTyping(false)
@@ -54,9 +43,7 @@ const LabelMenu = () => {
 
 	const saveNewLabel = (e) => {
 		e.stopPropagation()
-		if (addNewLabel(newLabel)) {
-			setCheckedArr((prev) => [false, ...prev])
-		}
+		addNewLabel(newLabel)
 		setTyping(false)
 		setNewLabel('')
 	}
@@ -85,7 +72,7 @@ const LabelMenu = () => {
 						/>
 						{!typing ? (
 							<div className='label-list' style={{ marginTop: '0.7rem' }}>
-								{labels !== null &&
+								{labels &&
 									labels.length > 0 &&
 									labels.map((label, index) => (
 										<div key={label}>
@@ -93,9 +80,8 @@ const LabelMenu = () => {
 												<input
 													type='checkbox'
 													id={label}
-													value={label}
-													checked={checkedArr.length > 0 && checkedArr[index]}
-													onChange={() => handleCheckBoxChange(index)}
+													value={selectedLabelsList.includes(label)}
+													onChange={() => handleCheckBoxChange(label)}
 												/>
 												<label
 													style={{

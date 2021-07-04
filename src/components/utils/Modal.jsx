@@ -3,7 +3,7 @@ import {
 	ModalOverlay,
 	ModalContent,
 	ModalCloseButton,
-} from '@chakra-ui/react'
+} from '@chakra-ui/react' //chakra modal uses react portal
 
 const MyModal = ({ children, ...restProps }) => {
 	return (
