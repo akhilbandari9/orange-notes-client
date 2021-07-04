@@ -6,7 +6,6 @@ import {
 	Switch,
 } from 'react-router-dom'
 import Sidebar from './components/sidebar'
-import { NotesProvider } from './context/notes'
 
 const Home = lazy(() => import('./pages/home'))
 const Bin = lazy(() => import('./pages/bin'))
@@ -18,23 +17,19 @@ function App() {
 		<main className='App'>
 			<Router>
 				<div className='App__sidebar'>
-					<NotesProvider>
-						<Sidebar />
-					</NotesProvider>
+					<Sidebar />
 				</div>
 				<div className='App__page'>
 					<Suspense fallback={<div>'Loading...'</div>}>
-						<NotesProvider>
-							<Switch>
-								<Route path='/' exact>
-									<Redirect to='/home' />
-								</Route>
-								<Route path='/home' component={Home} />
-								<Route path='/bin' exact component={Bin} />
-								<Route path='/label/:label' exact component={FilteredNotes} />
-								<Route path='/labels/manage' exact component={ManageLabels} />
-							</Switch>
-						</NotesProvider>
+						<Switch>
+							<Route path='/' exact>
+								<Redirect to='/home' />
+							</Route>
+							<Route path='/home' component={Home} />
+							<Route path='/bin' exact component={Bin} />
+							<Route path='/label/:label' exact component={FilteredNotes} />
+							<Route path='/labels/manage' exact component={ManageLabels} />
+						</Switch>
 					</Suspense>
 				</div>
 			</Router>

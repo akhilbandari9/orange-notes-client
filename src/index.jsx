@@ -5,10 +5,13 @@ import { ChakraProvider } from '@chakra-ui/react'
 import './styles/main.scss'
 
 import App from './App'
+import { NotesProvider } from './context/notes'
 
 ReactDOM.render(
 	<ChakraProvider>
-		<App />
+		<NotesProvider>
+			<App />
+		</NotesProvider>
 	</ChakraProvider>,
 	document.getElementById('root')
 )

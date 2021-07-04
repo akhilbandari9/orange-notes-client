@@ -1,8 +1,8 @@
-import { useNotesContext } from '../../context/notes'
 import { TagIcon } from '@heroicons/react/outline'
 import { NavLink } from 'react-router-dom'
 import { Spinner } from '@chakra-ui/react'
 import { useEffect } from 'react'
+import { useNotesContext } from '../../context/notes'
 
 const menuItemStyles = {
 	display: 'flex',
@@ -11,17 +11,15 @@ const menuItemStyles = {
 }
 const SidebarLabels = () => {
 	const { setLabelsOnLoad, labels } = useNotesContext()
+
 	useEffect(() => {
-		async function apiReq() {
-			await setLabelsOnLoad()
-		}
-		apiReq()
+		setLabelsOnLoad()
+		console.log('ran from sidebar')
 		//eslint-disable-next-line
 	}, [])
-
 	return (
 		<div>
-			{labels !== null ? (
+			{labels ? (
 				<nav>
 					{labels.length > 0 ? (
 						<div className='Sidebar-labels'>

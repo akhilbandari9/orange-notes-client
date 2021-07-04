@@ -52,7 +52,7 @@ const notesReducer = (state, action) => {
 		case DELETE_LABEL:
 			return {
 				...state,
-				notes: state.labels.filter((item) => item !== action.payload),
+				labels: state.labels.filter((item) => item !== action.payload),
 			}
 
 		default:
