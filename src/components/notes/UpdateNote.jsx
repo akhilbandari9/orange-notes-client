@@ -1,20 +1,28 @@
 import TextareaAutosize from 'react-textarea-autosize'
 import { useEffect, useState } from 'react'
 import { useNotesContext } from '../../context/notes'
+import { XIcon } from '@heroicons/react/outline'
+import ColorPicker from './ColorPicker'
 
 const UpdateNote = ({ note }) => {
 	const { updateNote } = useNotesContext()
 	const [title, setTitle] = useState(note?.title)
 	const [body, setBody] = useState(note?.body)
+	const [labels, setLabels] = useState(note?.labels)
+	const [color, setColor] = useState(note?.color)
+
+	const handleDeleteLabel = (selectedLabel) => {
+		setLabels((prev) => prev.filter((item) => item !== selectedLabel))
+	}
 
 	useEffect(() => {
 		let timeout = setTimeout(() => {
-			updateNote(note._id, { title, body })
+			updateNote(note._id, { title, body, labels: labels, color })
 		}, 600)
 
 		return () => clearTimeout(timeout)
 		// eslint-disable-next-line
-	}, [title, body])
+	}, [title, body, labels, color])
 
 	return (
 		<>
@@ -28,12 +36,29 @@ const UpdateNote = ({ note }) => {
 							onChange={({ target }) => setTitle(target.value)}
 						/>
 					</div>
+					<div className='badge-container'>
+						{labels.length > 0 &&
+							labels.map((item) => (
+								<p key={item} className='badge'>
+									<span>{item}</span>
+									<span>
+										<XIcon
+											className='badge-icon'
+											onClick={() => handleDeleteLabel(item)}
+										/>
+									</span>
+								</p>
+							))}
+					</div>
 					<div className='form-control'>
 						<TextareaAutosize
 							className='text-area-resizable'
 							value={body}
 							onChange={({ target }) => setBody(target.value)}
 						/>
+					</div>
+					<div className=''>
+						<ColorPicker color={color} setColor={setColor} />
 					</div>
 				</div>
 			)}

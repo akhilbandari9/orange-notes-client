@@ -248,6 +248,7 @@ body {
 		word-wrap: break-word;
 		font-size: inherit;
 		font-family: inherit;
+		height: min-content;
 	}
 
 	&-labels {
@@ -322,14 +323,33 @@ body {
 	}
 }
 .badge-container {
+	margin: 1rem 0;
+	display: flex;
+	flex-wrap: wrap;
 }
 
 .badge {
 	border: 1px solid lightblue;
 	border-radius: 10px;
-	padding: 0.1rem 0.7rem;
+	padding: 0.1rem 0.5rem;
 	font-size: 12px;
 	margin-right: 0.2rem;
+
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	&-icon {
+		height: 1.2rem;
+		display: block;
+		border-radius: 50%;
+		padding: 2px;
+		margin-left: 0.5rem;
+		cursor: pointer;
+		&:hover {
+			background-color: rgba($font, 0.2);
+		}
+	}
 }
 
 .label-card {

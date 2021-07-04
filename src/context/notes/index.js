@@ -134,10 +134,9 @@ const NotesProvider = ({ children }) => {
 	const setLabelsOnLoad = async () => {
 		try {
 			const res = await axios.get(LABELS, null)
-			const labelsArr = res.data.map((item) => item.label)
 			dispatch({
 				type: SET_LABELS_ONLOAD,
-				payload: labelsArr,
+				payload: res.data,
 			})
 		} catch (err) {
 			toast({

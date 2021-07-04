@@ -1,5 +1,4 @@
-import axios from 'axios'
-import { Suspense, lazy, useEffect } from 'react'
+import { Suspense, lazy } from 'react'
 import {
 	BrowserRouter as Router,
 	Route,
@@ -7,7 +6,6 @@ import {
 	Switch,
 } from 'react-router-dom'
 import Sidebar from './components/sidebar'
-import { LABELS } from './constants/endpoints'
 import { NotesProvider } from './context/notes'
 
 const Home = lazy(() => import('./pages/home'))
@@ -16,11 +14,6 @@ const FilteredNotes = lazy(() => import('./pages/filtered-notes'))
 const ManageLabels = lazy(() => import('./pages/manage-labels'))
 
 function App() {
-	useEffect(() => {
-		axios.get(LABELS, null)
-		//eslint-disable-next-line
-	}, [])
-
 	return (
 		<main className='App'>
 			<Router>

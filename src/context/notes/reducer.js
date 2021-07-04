@@ -36,7 +36,7 @@ const notesReducer = (state, action) => {
 		case SET_LABELS_ONLOAD:
 			return {
 				...state,
-				labels: action.payload,
+				labels: action.payload.map((item) => item.label),
 			}
 		case ADD_NEW_LABEL:
 			return {

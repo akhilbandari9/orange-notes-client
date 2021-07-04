@@ -2,6 +2,7 @@ import { useNotesContext } from '../../context/notes'
 import { TagIcon } from '@heroicons/react/outline'
 import { NavLink } from 'react-router-dom'
 import { Spinner } from '@chakra-ui/react'
+import { useEffect } from 'react'
 
 const menuItemStyles = {
 	display: 'flex',
@@ -9,7 +10,14 @@ const menuItemStyles = {
 	gap: '1rem',
 }
 const SidebarLabels = () => {
-	const { labels } = useNotesContext()
+	const { setLabelsOnLoad, labels } = useNotesContext()
+	useEffect(() => {
+		async function apiReq() {
+			await setLabelsOnLoad()
+		}
+		apiReq()
+		//eslint-disable-next-line
+	}, [])
 
 	return (
 		<div>

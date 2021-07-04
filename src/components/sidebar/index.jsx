@@ -11,17 +11,9 @@ import {
 } from '@chakra-ui/react'
 import SidebarNav from './SidebarNav'
 import SidebarLabels from './SidebarLabels'
-import { useNotesContext } from '../../context/notes'
-import { useEffect } from 'react'
 
 const Sidebar = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure()
-	const { setLabelsOnLoad, labels } = useNotesContext()
-
-	useEffect(() => {
-		setLabelsOnLoad()
-		//eslint-disable-next-line
-	}, [labels])
 
 	return (
 		<aside>
