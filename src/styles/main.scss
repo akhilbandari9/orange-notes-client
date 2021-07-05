@@ -6,11 +6,12 @@
 	padding: 0;
 }
 html {
-	overflow-y: scroll;
 }
 body {
 	font-size: 1rem;
 	color: #262626;
+	overflow: auto;
+	overflow-x: hidden;
 }
 @media only screen and (max-width: 460px) {
 	body {
@@ -145,9 +146,6 @@ body {
 	align-items: flex-end;
 	gap: 0.8rem;
 
-	&-wrap {
-		// display: none;
-	}
 	&-control {
 		width: 100%;
 
@@ -164,7 +162,6 @@ body {
 	}
 	&-radio {
 		input {
-			// visibility: hidden;
 			display: none;
 		}
 		label {
@@ -182,10 +179,6 @@ body {
 .radio-input:checked + .radio-label {
 	box-shadow: 0 0 1px 3px $orange-2;
 }
-
-// .form:focus-within .form-wrap {
-// 	display: block;
-// }
 
 .text-area-resizable {
 	width: 100%;
@@ -388,4 +381,30 @@ body {
 .updated-at {
 	font-size: 12px;
 	text-align: end;
+}
+
+.share-note {
+	padding: 1.8rem;
+	margin-top: 1.5rem;
+	@media only screen and (max-width: 440px) {
+		padding: 1rem;
+	}
+	textarea {
+		padding: 1rem;
+		padding-right: 3rem;
+		@media only screen and (max-width: 460px) {
+			font-size: 0.9rem;
+			padding-right: 5rem;
+		}
+	}
+	span {
+		color: white;
+	}
+	h3 {
+		margin-bottom: 0.5rem;
+		color: rgba($orange-2, 0.9);
+		font-weight: 400;
+		font-size: 1rem;
+		padding-left: 0.3rem;
+	}
 }

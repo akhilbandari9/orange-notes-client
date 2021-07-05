@@ -208,6 +208,23 @@ const NotesProvider = ({ children }) => {
 		}
 	}
 
+	const searchNotes = async (searchTerm) => {
+		try {
+			const res = await axios.get(`${NOTES}?search=${searchTerm}`, null)
+
+			dispatch({
+				type: GET_NOTES,
+				payload: res.data,
+			})
+		} catch (error) {
+			toast({
+				title: 'Error Fetching Notes',
+				status: 'error',
+				...toastOptions,
+			})
+		}
+	}
+
 	return (
 		<NotesContext.Provider
 			value={{
@@ -222,6 +239,7 @@ const NotesProvider = ({ children }) => {
 				setSelectedLabels,
 				setLabelsOnLoad,
 				deleteLabel,
+				searchNotes,
 			}}
 		>
 			{children}

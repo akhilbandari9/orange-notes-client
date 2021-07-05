@@ -24,43 +24,44 @@ const ManageLabels = () => {
 
 	return (
 		<section className='label-card'>
-			<form
-				method='POST'
-				onSubmit={handleSubmit}
-				style={{ margin: '0 auto', width: '300px', marginBottom: '30px' }}
-			>
-				<InputGroup size='md'>
-					<Input
-						placeholder='Enter New Label'
-						focusBorderColor='orange.200'
-						ref={inputRef}
-					/>
-					<InputRightElement width='4rem'>
-						<Button size='md' type='submit' colorScheme='orange'>
-							Add
-						</Button>
-					</InputRightElement>
-				</InputGroup>
-			</form>
-
 			{labels ? (
-				<div className='label-card__list'>
-					{labels.length > 0 ? (
-						labels.map((item) => (
-							<div key={item} className='label-card__item'>
-								<p className='label-card__name'>{item}</p>
-								<span
-									className='label-card__icon'
-									onClick={() => handleDeleteLabel(item)}
-								>
-									<XIcon style={{ height: 'inherit', width: 'inherit' }} />
-								</span>
-							</div>
-						))
-					) : (
-						<p>No labels</p>
-					)}
-				</div>
+				<>
+					<div className='label-card__list'>
+						{labels.length > 0 ? (
+							labels.map((item) => (
+								<div key={item} className='label-card__item'>
+									<p className='label-card__name'>{item}</p>
+									<span
+										className='label-card__icon'
+										onClick={() => handleDeleteLabel(item)}
+									>
+										<XIcon style={{ height: 'inherit', width: 'inherit' }} />
+									</span>
+								</div>
+							))
+						) : (
+							<p>No labels</p>
+						)}
+					</div>
+					<form
+						method='POST'
+						onSubmit={handleSubmit}
+						style={{ margin: '0 auto', width: '300px', marginTop: '30px' }}
+					>
+						<InputGroup size='md'>
+							<Input
+								placeholder='Enter New Label'
+								focusBorderColor='orange.200'
+								ref={inputRef}
+							/>
+							<InputRightElement width='4rem'>
+								<Button size='md' type='submit' colorScheme='orange'>
+									Add
+								</Button>
+							</InputRightElement>
+						</InputGroup>
+					</form>
+				</>
 			) : (
 				<Loading />
 			)}

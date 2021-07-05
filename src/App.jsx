@@ -11,6 +11,7 @@ const Home = lazy(() => import('./pages/home'))
 const Bin = lazy(() => import('./pages/bin'))
 const FilteredNotes = lazy(() => import('./pages/filtered-notes'))
 const ManageLabels = lazy(() => import('./pages/manage-labels'))
+const NotFoundPage = lazy(() => import('./pages/not-found'))
 
 function App() {
 	return (
@@ -29,6 +30,7 @@ function App() {
 							<Route path='/bin' exact component={Bin} />
 							<Route path='/label/:label' exact component={FilteredNotes} />
 							<Route path='/labels/manage' exact component={ManageLabels} />
+							<Route component={NotFoundPage} />
 						</Switch>
 					</Suspense>
 				</div>

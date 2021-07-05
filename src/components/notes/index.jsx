@@ -8,11 +8,11 @@ import { useNotesContext } from '../../context/notes'
 import { useEffect } from 'react'
 import useLoading from '../../hooks/useLoading'
 import { Loading } from '../utils'
+import Search from './Search'
 
 function Notes() {
 	const { onOpen, isOpen, onClose } = useDisclosure()
 	const [loading, setLoading] = useLoading()
-
 	const { label } = useParams()
 	const { getNotes, notes } = useNotesContext()
 
@@ -41,7 +41,7 @@ function Notes() {
 					<span>Add Note</span>
 				</Button>
 			</div>
-
+			<Search />
 			{!loading ? <Grid notes={notes} /> : <Loading colorScheme='orange' />}
 			<Modal isOpen={isOpen} onClose={onClose}>
 				<NoteForm />
