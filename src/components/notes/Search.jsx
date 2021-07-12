@@ -9,6 +9,7 @@ const Search = () => {
 		if (searchTerm.length > 2) {
 			searchNotes(searchTerm)
 		}
+		// eslint-disable-next-line
 	}, [searchTerm])
 
 	return (

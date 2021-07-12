@@ -1,5 +1,4 @@
 import {
-	Input,
 	Button,
 	InputGroup,
 	InputRightElement,
@@ -8,7 +7,6 @@ import {
 } from '@chakra-ui/react'
 import { ClipboardCopyIcon } from '@heroicons/react/outline'
 import { useRef } from 'react'
-import { NavLink } from 'react-router-dom'
 import { toastOptions } from '../../constants/components'
 
 const ShareNote = ({ note }) => {
