@@ -10,20 +10,20 @@ const UpdateNote = ({ note }) => {
 	const { updateNote } = useNotesContext()
 	const [title, setTitle] = useState(note.title)
 	const [body, setBody] = useState(note.body)
-	const [labels, setLabels] = useState(note.labels)
+	const [noteLabels, setNoteLabels] = useState(note.labels)
 	const [color, setColor] = useState(note.color)
 
 	const isMounted = useRef(false)
 
 	const handleDeleteLabel = (selectedLabel) => {
-		setLabels((prev) => prev.filter((item) => item !== selectedLabel))
+		setNoteLabels((prev) => prev.filter((item) => item !== selectedLabel))
 	}
 
 	useEffect(() => {
 		let timeout
 		if (isMounted.current) {
 			timeout = setTimeout(async () => {
-				await updateNote(note._id, { title, body, labels, color })
+				await updateNote(note._id, { title, body, labels: noteLabels, color })
 			}, 600)
 		} else {
 			isMounted.current = true
@@ -31,7 +31,7 @@ const UpdateNote = ({ note }) => {
 
 		return () => clearTimeout(timeout)
 		// eslint-disable-next-line
-	}, [title, body, color, JSON.stringify(labels)])
+	}, [title, body, color, noteLabels])
 
 	return (
 		<>
@@ -46,8 +46,8 @@ const UpdateNote = ({ note }) => {
 						/>
 					</div>
 					<div className='badge-container'>
-						{labels.length > 0 &&
-							labels.map((item) => (
+						{noteLabels.length > 0 &&
+							noteLabels.map((item) => (
 								<p key={item} className='badge'>
 									<span>{item}</span>
 									<span>

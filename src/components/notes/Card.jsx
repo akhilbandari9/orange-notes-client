@@ -1,5 +1,5 @@
 import { TrashIcon, PencilIcon, ShareIcon } from '@heroicons/react/outline'
-import { useNotesContext } from '../../context/notes'
+import { NotesProvider, useNotesContext } from '../../context/notes'
 import useLoading from '../../hooks/useLoading'
 import { useDisclosure } from '@chakra-ui/react'
 import UpdateNote from './UpdateNote'
@@ -86,7 +86,7 @@ export default Card
 
 const OpenModal = ({ modalType, isOpen, onClose, note }) => {
 	return (
-		<>
+		<NotesProvider>
 			{isOpen && (
 				<Modal isOpen={isOpen} onClose={onClose}>
 					{modalType === 'share' ? (
@@ -96,6 +96,6 @@ const OpenModal = ({ modalType, isOpen, onClose, note }) => {
 					) : null}
 				</Modal>
 			)}
-		</>
+		</NotesProvider>
 	)
 }

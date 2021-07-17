@@ -11,14 +11,12 @@ const BinCard = ({ note }) => {
 
 		setLoading(true)
 		await deleteBinNote(note._id)
-		setLoading(false)
 	}
 	const handleRestore = async (e) => {
 		e.preventDefault()
 
 		setLoading(true)
 		await restoreNote(note._id)
-		setLoading(false)
 	}
 
 	return (

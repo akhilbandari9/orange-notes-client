@@ -27,13 +27,15 @@ const NotesProvider = ({ children }) => {
 	}
 	const [state, dispatch] = useReducer(notesReducer, initialState)
 
-	const getNotes = async (label) => {
+	const getNotes = async (label, searchTerm) => {
 		try {
 			let res
-			if (label === undefined) {
-				res = await axios.get(`${NOTES}`, null)
+			if (label) {
+				res = await axios.get(`${NOTES}?label=${label}`, null)
+			} else if (searchTerm) {
+				res = await axios.get(`${NOTES}?search=${searchTerm}`, null)
 			} else {
-				res = await axios.get(`${NOTES}/labels?label=${label}`, null)
+				res = await axios.get(`${NOTES}`, null)
 			}
 
 			dispatch({
