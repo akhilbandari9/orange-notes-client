@@ -27,7 +27,7 @@ function Notes() {
 	}, [label])
 
 	return (
-		<>
+		<div style={{ width: '100%' }}>
 			<div className='actions-items'>
 				<Search />
 				<div className='add-note-btn'>
@@ -49,7 +49,7 @@ function Notes() {
 			<Modal isOpen={isOpen} onClose={onClose}>
 				<NoteForm />
 			</Modal>
-		</>
+		</div>
 	)
 }
 

@@ -49,6 +49,7 @@ const SidebarLabels = () => {
 					size='sm'
 					marginTop='20px'
 					label='Loading...'
+					margin='2rem 50%'
 				/>
 			)}
 		</div>

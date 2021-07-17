@@ -1,16 +1,16 @@
 import Card from './Card'
 
 const Grid = ({ notes }) => {
-	if (notes !== null && notes.length <= 0) {
-		return <h3>You do not have any notes</h3>
-	}
-
 	return (
 		<section>
 			<div className='grid'>
-				{notes !== null &&
-					notes.length > 0 &&
-					notes.map((item) => <Card key={item._id} note={item} />)}
+				{notes !== null && notes.length <= 0 ? (
+					<h3 style={{ margin: '1rem auto', fontSize: '20px' }}>
+						Notes not found
+					</h3>
+				) : (
+					notes?.map((item) => <Card key={item._id} note={item} />)
+				)}
 			</div>
 		</section>
 	)
